@@ -1,0 +1,64 @@
+// ArrayvsVector.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include <vector>
+using namespace std;
+int main()
+{
+	//size
+	int n;
+	cin >> n;
+	//position to insert in(zero-based)
+	int k;
+	cin >> k;
+	//element to insert
+	int element;
+	cin >> element;
+
+	//array way to insert
+	int * arr =new int[n];
+
+	//input
+	for (int i = 0; i < n - 1; i++)
+		cin >> arr[i];
+
+	//shfiting to insert
+	for (int i = n - 1; i >= k; i--)
+		arr[i + 1] = arr[i];
+
+	//inserting
+	arr[k] = element;
+
+	//output of array
+	for (int i = 0; i < 5; i++)
+		cout << arr[i] << " ";
+	cout << endl;
+
+
+	////vector way to insert
+	//vector<int> vec(n);
+	////adding elements to vector
+	//for (int i = 0; i < vec.size() - 1; i++)
+	//	cin >> vec[i];
+
+	////inserting, in this case we didn't need much, just call insert function
+	//vec.insert(vec.begin() + k,element);
+
+	////output of vector
+	//for (int i = 0; i < vec.size(); i++)
+	//	cout << vec[i] << " ";
+
+	////vector way to append;
+	//vec.push_back(6);
+	//for (int i = 0; i < vec.size(); i++)
+	//	cout << vec[i] << " ";
+	//cout << endl;
+
+	////vector way to delete;
+	//vec.erase(vec.begin()+k);
+	//for (int i = 0; i < vec.size(); i++)
+	//	cout << vec[i] << " ";
+	//cout << endl;
+}
+

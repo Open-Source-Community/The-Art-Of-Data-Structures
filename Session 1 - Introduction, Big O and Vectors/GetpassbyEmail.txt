@@ -1,0 +1,84 @@
+#include <ctime>
+#include <iostream>
+#include <map>
+#include <chrono>
+using namespace std::chrono;
+using namespace std;
+const int SIZE =1000000;
+//My array
+string arr[SIZE][2];
+
+//My Map
+map<string, string> mp;
+
+//Store random Email
+string randomEmail;
+
+string gen_random(const int len) {
+	static const char alphanum[] =
+		"0123456789"
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		"abcdefghijklmnopqrstuvwxyz";
+	string tmp_s;
+	tmp_s.reserve(len);
+
+	for (int i = 0; i < len; ++i) {
+		tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
+	}
+	return tmp_s;
+}
+
+void RandomGenerator() {
+	for (int i = 0; i < SIZE; i++)
+	{
+		string Email = gen_random(12) + "@gmail.com";
+		string password = gen_random(8);
+
+		//insert to array
+		arr[i][0] = Email;
+		arr[i][1] = password;
+
+		//insert to map
+		mp[Email] = password;
+	}
+	randomEmail = arr[SIZE/2][0];
+}
+
+//get password of an email using Array
+string ArrayGetPass(){
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (arr[i][0] == randomEmail)
+			return arr[i][1];
+	}
+}
+
+//get password of an email using Map
+string MapGetPass() {
+	return mp[randomEmail];
+}
+
+
+
+int main() {
+	//Generate Random Emails and passwords and insert in array and map
+	RandomGenerator();
+
+
+	auto startarray = high_resolution_clock::now();
+	cout << "The password for " << randomEmail << " is " << ArrayGetPass() << endl;
+	auto stoparray = high_resolution_clock::now();
+	auto durationarray = duration_cast<microseconds>(stoparray - startarray);
+	cout << "Array took " <<  durationarray.count()  << " microseconds" << endl;
+
+	
+	auto startmap = high_resolution_clock::now();
+	cout << "The password for " << randomEmail << " is " << MapGetPass() << endl;
+	auto stopmap = high_resolution_clock::now();
+	auto durationmap = duration_cast<microseconds>( stopmap - startmap);
+	cout << "Map took " << durationmap.count() << " microseconds" << endl;
+
+	cout << "map is " << durationarray.count() / durationmap.count() << " faster than Array";
+
+	return 0;
+}
